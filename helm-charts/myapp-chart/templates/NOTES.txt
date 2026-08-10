@@ -1,0 +1,4 @@
+{{ .Release.Name }} has been deployed successfully!
+
+Check status with:
+  kubectl get pods -l app={{ .Release.Name }}

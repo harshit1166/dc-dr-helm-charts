@@ -1,0 +1,5 @@
+image:
+  repository: harbor.dc.local:30080/myapp/angular-app
+  tag: "v1"
+service:
+  targetPort: 80

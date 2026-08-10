@@ -1,0 +1,48 @@
+expose:
+  type: nodePort
+  tls:
+    enabled: false
+  nodePort:
+    ports:
+      http:
+        port: 80
+        nodePort: 30080
+
+externalURL: http://harbor.dc.local:30080
+
+persistence:
+  enabled: false
+
+trivy:
+  enabled: false
+
+notary:
+  enabled: false
+
+chartmuseum:
+  enabled: false
+
+harborAdminPassword: "Harbor12345"
+
+core:
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 100m
+registry:
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 100m
+database:
+  internal:
+    resources:
+      requests:
+        memory: 128Mi
+        cpu: 100m
+redis:
+  internal:
+    resources:
+      requests:
+        memory: 64Mi
+        cpu: 50m

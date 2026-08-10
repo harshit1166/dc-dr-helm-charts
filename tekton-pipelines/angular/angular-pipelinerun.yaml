@@ -1,0 +1,24 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  generateName: angular-app-run-
+  namespace: ci-pipelines
+spec:
+  pipelineRef:
+    name: angular-app-pipeline
+  params:
+    - name: image-tag
+      value: "v1.0.0"
+    - name: image-repo
+      value: "harbor.dc.local:30080/myapp/angular-app"
+  workspaces:
+    - name: shared-workspace
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 1Gi
+    - name: docker-credentials
+      secret:
+        secretName: harbor-dc-creds-kaniko

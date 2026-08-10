@@ -1,0 +1,20 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: prepare-python-source
+  namespace: ci-pipelines
+spec:
+  workspaces:
+    - name: output
+  steps:
+    - name: write-files
+      image: busybox
+      script: |
+        #!/bin/sh
+        mkdir -p $(workspaces.output.path)
+        cat > $(workspaces.output.path)/Dockerfile << 'DOCKERFILE_EOF'
+        FROM python:3.11-slim
+        WORKDIR /app
+        RUN echo "print('Hello from Python DC-DR pipeline!')" > app.py
+        CMD ["python", "app.py"]
+        DOCKERFILE_EOF

@@ -1,0 +1,39 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: java-app-pipeline
+  namespace: ci-pipelines
+spec:
+  params:
+    - name: image-tag
+      type: string
+    - name: image-repo
+      type: string
+      default: "harbor.dc.local:30080/myapp/java-app"
+  workspaces:
+    - name: shared-workspace
+    - name: docker-credentials
+  tasks:
+    - name: prepare-source
+      taskRef:
+        name: prepare-java-source
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+
+    - name: build-and-push
+      runAfter: ["prepare-source"]
+      taskRef:
+        name: kaniko
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+        - name: dockerconfig
+          workspace: docker-credentials
+      params:
+        - name: IMAGE
+          value: "$(params.image-repo):$(params.image-tag)"
+        - name: EXTRA_ARGS
+          value:
+            - "--insecure"
+            - "--insecure-pull"

@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: prepare-angular-source
+  namespace: ci-pipelines
+spec:
+  workspaces:
+    - name: output
+  steps:
+    - name: write-files
+      image: busybox
+      script: |
+        #!/bin/sh
+        mkdir -p $(workspaces.output.path)
+        cat > $(workspaces.output.path)/Dockerfile << 'DOCKERFILE_EOF'
+        FROM nginx:alpine
+        RUN echo "<h1>Hello from Angular DC-DR pipeline!</h1>" > /usr/share/nginx/html/index.html
+        EXPOSE 80
+        DOCKERFILE_EOF

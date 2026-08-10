@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  generateName: java-app-run-
+  namespace: ci-pipelines
+spec:
+  pipelineRef:
+    name: java-app-pipeline
+  params:
+    - name: image-tag
+      value: "v1.0.0"
+    - name: image-repo
+      value: "harbor.dc.local:30080/myapp/java-app"
+  workspaces:
+    - name: shared-workspace
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
+    - name: docker-credentials
+      secret:
+        secretName: harbor-dc-creds-kaniko
