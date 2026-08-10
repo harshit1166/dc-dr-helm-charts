@@ -1,0 +1,5 @@
+image:
+  repository: harbor.dr.local:30080/myapp/python-app
+  tag: "v1.0.0"
+service:
+  targetPort: 5000
