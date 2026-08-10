@@ -15,7 +15,6 @@ spec:
         cat > $(workspaces.output.path)/Dockerfile << 'DOCKERFILE_EOF'
         FROM eclipse-temurin:17-jre
         WORKDIR /app
-        RUN echo 'public class Main { public static void main(String[] a) { System.out.println("Hello from Java DC-DR pipeline!"); } }' > Main.java
-        RUN javac Main.java || echo "will compile at runtime"
-        CMD ["sh", "-c", "echo Java app running - DC-DR demo"]
+        RUN echo 'public class Main { public static void main(String[] a) throws Exception { System.out.println("Hello from Java DC-DR pipeline!"); Thread.sleep(Long.MAX_VALUE); } }' > Main.java
+        CMD ["sh", "-c", "echo Java app running - DC-DR demo && sleep infinity"]
         DOCKERFILE_EOF

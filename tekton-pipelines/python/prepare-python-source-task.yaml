@@ -15,6 +15,6 @@ spec:
         cat > $(workspaces.output.path)/Dockerfile << 'DOCKERFILE_EOF'
         FROM python:3.11-slim
         WORKDIR /app
-        RUN echo "print('Hello from Python DC-DR pipeline!')" > app.py
+        RUN echo "import time; print('Hello from Python DC-DR pipeline!'); time.sleep(999999999)" > app.py
         CMD ["python", "app.py"]
         DOCKERFILE_EOF
